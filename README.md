@@ -1,4 +1,4 @@
-Formúla 1 – Borðspil eftir Adam Szczubelek
+# Formúla 1 – Borðspil eftir Adam Szczubelek
 Inngangur
 Höfundur: Adam Szczubelek
 
