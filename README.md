@@ -1,1 +1,1 @@
-# Formula-1---Bor-spil-eftir-Adam-Szczubelek
+Formula-1-Bordspil-eftir-Adam-Szczubelek
