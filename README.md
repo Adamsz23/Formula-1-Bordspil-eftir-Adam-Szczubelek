@@ -16,6 +16,12 @@ Leikmenn kasta teningi með því að ýta á stóra hnappinn.
 Á litlum skjá birtist talan sem leikmaður fékk.
 Leikmaður færir bílinn sinn áfram um samsvarandi fjölda reita á brautinni.
 Leikurinn heldur áfram réttsælis, einn leikmaður í einu.
+Leiðbeiningar fyrir Sigurvegara
+Þegar leikmaður hefur lokið tveimur hringjum og kemst fyrstur yfir endamarkið, þá fagnar spilið sigrinum svona:
+Hvernig á að kveikja á fagnaðarlátunum?
+Tvöfaldur smellur: Ýttu hratt tvisvar á stóra rauða hnappinn (eins og að tvísmella á tölvumús).
+
+Tímasetning: Þú þarft að ýta seinna skiptið innan við 0,4 sekúndum eftir það fyrra.
 # Markmið:
 Leikmenn þurfa að klára tvær hringferðir um brautina.
 Sá sem klárar tvær hringferðir og fer fyrstur yfir endamarkið vinnur leikinn.
