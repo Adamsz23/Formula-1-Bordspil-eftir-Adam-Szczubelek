@@ -1,0 +1,83 @@
+# Formula 1 - Borðspil eftir Adam Szczubelek
+# 24.04.2026
+
+import machine
+import utime
+import urandom
+from machine import Pin, PWM, I2C
+# IMPORTANT: You must have lcd_api.py and i2c_lcd.py on your board for this to work!
+from lcd_api import LcdApi
+from i2c_lcd import I2cLcd
+
+# CONFIGURATION
+# I2C for LCD (SDA on Pin 21, SCL on Pin 22)
+I2C_ADDR = 0x27
+i2c = I2C(0, sda=Pin(21), scl=Pin(22), freq=400000)
+lcd = I2cLcd(i2c, I2C_ADDR, 2, 16)
+
+# Hardware Pins
+button = Pin(4, Pin.IN, Pin.PULL_UP)     # The switch tabs
+led = Pin(13, Pin.OUT)                   # The RED labeled side tab
+buzzer = PWM(Pin(18))                    # The speaker
+buzzer.duty(0)                           # Start silent
+
+# Variables for double-click (Winner)
+last_click_time = 0
+double_click_delay = 400 
+
+# FUNCTIONS
+def beep(freq, duration):
+    buzzer.freq(freq)
+    buzzer.duty(512)
+    utime.sleep_ms(duration)
+    buzzer.duty(0)
+
+def winner_celebration():
+    lcd.clear()
+    lcd.putstr("*** WINNER ***\n  CHAMPION!  ")
+    melody = [600, 800, 1000, 1200]
+    for _ in range(3):
+        for note in melody:
+            led.value(0) # Flash light OFF
+            beep(note, 150)
+            led.value(1) # Flash light ON
+            utime.sleep_ms(50)
+
+# STARTUP SEQUENCE
+lcd.putstr("F1 ENGINE START")
+for _ in range(3):
+    led.value(1)
+    beep(600, 200)
+    led.value(0)
+    utime.sleep_ms(400)
+
+led.value(1) # Keep button lit up for the game
+lcd.clear()
+lcd.putstr("READY TO RACE!")
+
+# MAIN LOOP
+while True:
+    if button.value() == 0:  # Button is pressed
+        current_time = utime.ticks_ms()
+        
+        # Check if this was a fast double-click
+        if utime.ticks_diff(current_time, last_click_time) < double_click_delay:
+            winner_celebration()
+            utime.sleep(2)
+            lcd.clear()
+            lcd.putstr("Press to Roll!")
+        else:
+            # Single click = Roll the dice
+            beep(1200, 100)
+            # Pick a number 1-6
+            roll = (urandom.getrandbits(8) % 6) + 1
+            lcd.clear()
+            lcd.putstr("YOU ROLLED:\n      " + str(roll))
+        
+        last_click_time = current_time
+        
+        # Wait for player to let go of the button
+        while button.value() == 0:
+            utime.sleep_ms(20)
+            
+    utime.sleep_ms(10)
